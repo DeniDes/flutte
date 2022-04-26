@@ -5,7 +5,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MaterialApp(home: MyApp(), debugShowCheckedModeBanner: false,));
+  runApp(MaterialApp(
+    theme: ThemeData(primarySwatch: Colors.deepPurple),
+    home: MyApp(),
+    debugShowCheckedModeBanner: false,
+  ));
 }
 
 
@@ -49,6 +53,8 @@ class MyApp extends StatelessWidget {
             ),
             RaisedButton(
               child: Text('new screen'),
+              color: Colors.deepPurple,
+              textColor: Colors.white,
               onPressed: () async {
                 //email : de@de.de
                 //pass : 1234567890
