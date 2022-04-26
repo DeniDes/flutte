@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-void main() => runApp(MaterialApp(home: MyApp()));
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MaterialApp(home: MyApp(), debugShowCheckedModeBanner: false,));
+}
+
 
 class MyApp extends StatelessWidget {
+  FirebaseAuth auth = FirebaseAuth.instance;
+
   final myController = TextEditingController();
   final myController2 = TextEditingController();
   String text1 = "";
@@ -40,15 +49,30 @@ class MyApp extends StatelessWidget {
             ),
             RaisedButton(
               child: Text('new screen'),
-              onPressed: () {
-                text1=myController.text;
-                text2=myController2.text;
-                myController.clear();
-                myController2.clear();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MyAppSegondRoute(text1,text2)),
-                );
+              onPressed: () async {
+                //email : de@de.de
+                //pass : 1234567890
+                try {
+                  UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+                      email: myController.text,
+                      password: myController2.text
+                  );
+                  text1 = myController.text;
+                  text2 = "es el email";
+                  myController.clear();
+                  myController2.clear();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => MyAppSegondRoute(text1, text2)),
+                  );
+                } on FirebaseAuthException catch (e) {
+                  if (e.code == 'user-not-found') {
+                    print('No user found for that email.');
+                  } else if (e.code == 'wrong-password') {
+                    print('Wrong password provided for that user.');
+                  }
+                }
               },
             ),
           ],
