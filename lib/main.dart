@@ -1,116 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutterproject/Inici.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MaterialApp(
     theme: ThemeData(primarySwatch: Colors.deepPurple),
-    home: MyApp(),
+    home: inici(),
     debugShowCheckedModeBanner: false,
   ));
 }
-
-
-class MyApp extends StatelessWidget {
-  FirebaseAuth auth = FirebaseAuth.instance;
-
-  final myController = TextEditingController();
-  final myController2 = TextEditingController();
-  String text1 = "";
-  String text2 = "";
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('First Screen'),
-      ),
-      body: Center(
-        child:Column(
-          children: [
-            Container(
-              margin: const EdgeInsets.all(50),
-            ),
-            TextField(
-              controller: myController,
-              decoration: InputDecoration(
-                border:OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.black, width: 2.0),
-                  borderRadius: BorderRadius.circular(25.0),
-                ),
-              ),
-            ),
-            TextField(
-              controller: myController2,
-              decoration: InputDecoration(
-                border:OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.black, width: 2.0),
-                  borderRadius: BorderRadius.circular(25.0),
-                ),
-              ),
-            ),
-            RaisedButton(
-              child: Text('new screen'),
-              color: Colors.deepPurple,
-              textColor: Colors.white,
-              onPressed: () async {
-                //email : de@de.de
-                //pass : 1234567890
-                try {
-                  UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-                      email: myController.text,
-                      password: myController2.text
-                  );
-                  text1 = myController.text;
-                  text2 = "es el email";
-                  myController.clear();
-                  myController2.clear();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => MyAppSegondRoute(text1, text2)),
-                  );
-                } on FirebaseAuthException catch (e) {
-                  if (e.code == 'user-not-found') {
-                    print('No user found for that email.');
-                  } else if (e.code == 'wrong-password') {
-                    print('Wrong password provided for that user.');
-                  }
-                }
-              },
-            ),
-          ],
-
-        ),
-      ),
-    );
-  }
-}
-
-class MyAppSegondRoute extends StatelessWidget {
-  String Nodeuno = "";
-  String Nodedos = "";
-
-  MyAppSegondRoute(String text1, String text2){
-    Nodeuno=text1;
-    Nodedos=text2;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Second Screen"),
-      ),
-      body: Center(
-          child: Text(Nodeuno+" "+Nodedos),
-        ),
-    );
-  }
-}
-
 
 /*
 void main() {
