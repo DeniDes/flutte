@@ -74,9 +74,29 @@ class inici extends StatelessWidget {
                   );
                 } on FirebaseAuthException catch (e) {
                   if (e.code == 'user-not-found') {
-                    print('No user found for that email.');
+                    showDialog(
+                        context: context,
+                        builder: (ctx) => AlertDialog(
+                            title: Text(' Ops! No user found for that email.'),
+                            content: Text('${e.message}')
+                        )
+                    );
                   } else if (e.code == 'wrong-password') {
-                    print('Wrong password provided for that user.');
+                    showDialog(
+                        context: context,
+                        builder: (ctx) => AlertDialog(
+                            title: Text(' Ops! Wrong password provided for that user.'),
+                            content: Text('${e.message}')
+                        )
+                    );
+                  }else{
+                    showDialog(
+                        context: context,
+                        builder: (ctx) => AlertDialog(
+                            title: Text(' Ops! Error.'),
+                            content: Text('${e.message}')
+                        )
+                    );
                   }
                 }
               },

@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Registre extends StatelessWidget {
+  FirebaseAuth auth = FirebaseAuth.instance;
+
   final myController = TextEditingController();
   final myController2 = TextEditingController();
   String text1 = "";
@@ -60,7 +63,27 @@ class Registre extends StatelessWidget {
               color: Colors.deepPurple,
               textColor: Colors.white,
               onPressed: () async {
-
+                try {
+                  await auth.createUserWithEmailAndPassword(
+                      email: myController.text,
+                      password: myController2.text
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Sucessfully Register.You Can Login Now'),
+                    ),
+                    //duration: Duration(seconds: 5),
+                  );
+                  Navigator.of(context).pop();
+                } on FirebaseAuthException catch (e) {
+                  showDialog(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                        title: Text(' Ops! Registration Failed'),
+                        content: Text('${e.message}')
+                      )
+                  );
+                }
               },
             ),
           ],
