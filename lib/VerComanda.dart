@@ -12,10 +12,11 @@ class VerComanda extends StatelessWidget {
       body: Container(
         // child: ListView.builder(
         //   itemBuilder: (context, index) {
-        //     return Text("$index");
+        //     //return Text("$index");
+        //     return getData(1);
         //   },
         // ),
-          child: getData()
+         child: getData(1)
       )
 
     );
@@ -23,6 +24,11 @@ class VerComanda extends StatelessWidget {
 }
 
 class getData extends StatelessWidget {
+  var index1=0;
+  getData(int index){
+    index1=index;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +42,9 @@ class getData extends StatelessWidget {
           }
           return ListView(
             children: snapshot.data!.docs.map((document) {
-              return Center(child: Text(document['primero'][0]));
+              return Center(
+                  child: Text(document['text']),
+              );
             }).toList(),
           );
         },

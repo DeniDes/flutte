@@ -27,7 +27,8 @@ class inici extends StatelessWidget {
       ),
       body: Container(
         color: Colors.deepPurple,
-        child: Column(
+        child: ListView(
+
           children: <Widget>[
             Expanded(
               child: Container(
@@ -46,14 +47,13 @@ class inici extends StatelessWidget {
                     const SizedBox(
                       height: 120,
                     ),
-                    Theme(data: new ThemeData(
+                    Theme(data: ThemeData(
                         hintColor: Colors.white,
-
                     ),
                       child: Column(
                         children: [
                           TextField(
-                            style: TextStyle(color: Colors.white),
+                            style: const TextStyle(color: Colors.white),
                             controller: myController,
                             decoration: InputDecoration(
                               hintText: "email",
@@ -72,7 +72,7 @@ class inici extends StatelessWidget {
                             height: 30,
                           ),
                           TextField(
-                            style: TextStyle(color: Colors.white),
+                            style: const TextStyle(color: Colors.white),
                             controller: myController2,
                             decoration: InputDecoration(
                               hintText: "password",
@@ -120,8 +120,8 @@ class inici extends StatelessWidget {
                                 context: context,
                                 builder: (ctx) => AlertDialog(
                                     backgroundColor: Colors.brown,
-                                    titleTextStyle: TextStyle( color: Colors.white),
-                                    contentTextStyle: TextStyle( color: Colors.white),
+                                    titleTextStyle: const TextStyle( color: Colors.white),
+                                    contentTextStyle: const TextStyle( color: Colors.white),
                                     title: const Text(
                                         ' Ops! No user found for that email.'),
                                     content: Text('${e.message}')));
@@ -130,8 +130,8 @@ class inici extends StatelessWidget {
                                 context: context,
                                 builder: (ctx) => AlertDialog(
                                     backgroundColor: Colors.brown,
-                                    titleTextStyle: TextStyle( color: Colors.white),
-                                    contentTextStyle: TextStyle( color: Colors.white),
+                                    titleTextStyle: const TextStyle( color: Colors.white),
+                                    contentTextStyle: const TextStyle( color: Colors.white),
                                     title: const Text(
                                         ' Ops! Wrong password provided for that user.'),
                                     content: Text('${e.message}')));
@@ -140,8 +140,8 @@ class inici extends StatelessWidget {
                                 context: context,
                                 builder: (ctx) => AlertDialog(
                                     backgroundColor: Colors.brown,
-                                    titleTextStyle: TextStyle( color: Colors.white),
-                                    contentTextStyle: TextStyle( color: Colors.white),
+                                    titleTextStyle: const TextStyle( color: Colors.white),
+                                    contentTextStyle: const TextStyle( color: Colors.white),
                                     title: const Text(' Ops! Error.'),
                                     content: Text('${e.message}')));
                           }
@@ -161,6 +161,9 @@ class inici extends StatelessWidget {
                           MaterialPageRoute(builder: (context) => Registre()),
                         );
                       },
+                    ),
+                    const SizedBox(
+                      height: 30,
                     ),
                   ],
                 ),

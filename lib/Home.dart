@@ -24,62 +24,71 @@ class Home extends StatelessWidget {
         title: const Text("Second Screen"),
       ),
       body: Center(
-        child: Column(
+        child: ListView(
           children: [
-            Container(
-              margin: const EdgeInsets.all(30),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            SizedBox.fromSize(
-              size: Size(56, 56),
-              child: ClipOval(
-                child: RaisedButton(
-                  child: const Text('perfil'),
-                  color: Colors.deepPurple,
-                  textColor: Colors.white,
-                  onPressed: (){
+            Expanded(
+              child: Column(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.all(30),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  SizedBox.fromSize(
+                    size: Size(56, 56),
+                    child: ClipOval(
+                      child: RaisedButton(
+                        child: const Text('perfil'),
+                        color: Colors.deepPurple,
+                        textColor: Colors.white,
+                        onPressed: (){
 
-                  },
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 90,
-            ),
-            ClipOval(
-              child: RaisedButton(
-                child: const Text('crear comanda'),
-                color: Colors.deepPurpleAccent,
-                textColor: Colors.white,
-                onPressed: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HacerComanda()),
-                  );
-                },
-              ),
-            ),
-            const SizedBox(
-              height: 90,
-            ),
-            ClipOval(
-            child: RaisedButton(
-              child: const Text('ver comandas'),
-              color: Colors.deepPurpleAccent,
-              textColor: Colors.white,
-              onPressed: (){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => VerComanda()),
-                );
-              },
-            ),
-            ),
+                        },
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 90,
+                  ),
+                  ClipOval(
+                    child: RaisedButton(
+                      child: const Text('crear comanda'),
+                      color: Colors.deepPurpleAccent,
+                      textColor: Colors.white,
+                      onPressed: (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => HacerComanda()),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 90,
+                  ),
+                  ClipOval(
+                    child: RaisedButton(
+                      child: const Text('ver comandas'),
+                      color: Colors.deepPurpleAccent,
+                      textColor: Colors.white,
+                      onPressed: (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => VerComanda()),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 90,
+                  ),
+                ],
+              )
+            )
           ],
         ),
       ),
