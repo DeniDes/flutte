@@ -2,10 +2,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterproject/Home.dart';
 
 class HacerComanda extends StatelessWidget {
   final myController = TextEditingController();
-
+  String user="";
+  HacerComanda(String u){user=u;}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,7 +15,7 @@ class HacerComanda extends StatelessWidget {
         title: const Text("hacer comanda screen"),
       ),
       body: Center(
-        child: ListView(
+        /*child: ListView(
           children: [
             Container(
               margin: const EdgeInsets.all(30),
@@ -23,7 +25,7 @@ class HacerComanda extends StatelessWidget {
               style: const TextStyle(color: Colors.white),
               controller: myController,
               decoration: InputDecoration(
-                hintText: "password",
+                hintText: "hola",
                 prefixIcon: const Icon(
                   Icons.lock_open,
                   color: Colors.black,
@@ -33,7 +35,6 @@ class HacerComanda extends StatelessWidget {
                   borderRadius: BorderRadius.circular(25.0),
                 ),
               ),
-              obscureText: true,
             ),
             RaisedButton(
               child: const Text('register now'),
@@ -46,8 +47,8 @@ class HacerComanda extends StatelessWidget {
                 },
             ),
           ],
-        ),
-        //child: AddData("plato")//AddUser("fullName", "company", 1),
+        ),*/
+        child: getData(user)
       ),
     );
   }
@@ -55,7 +56,8 @@ class HacerComanda extends StatelessWidget {
 
 class AddData extends StatelessWidget {
   var plato="";
-  AddData(String s){plato=s;}
+  var user="";
+  AddData(String s, String u){plato=s;user=u;}
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +69,11 @@ class AddData extends StatelessWidget {
           onPressed: () {
             FirebaseFirestore.instance
                 .collection('comanda1')
-                .add({'text': plato});
+                .add({'plato': plato,'persona':user});
+            Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Home(user)),
+                    );
           },
         ),
       ),
@@ -75,32 +81,40 @@ class AddData extends StatelessWidget {
   }
 }
 
-class AddUser extends StatelessWidget {
-  final String fullName;
-  final String company;
-  final int age;
-
-  AddUser(this.fullName, this.company, this.age);
-
+class getData extends StatelessWidget {
+  String plato="";
+  String user="";
+  getData(String u){user=u;}
   @override
   Widget build(BuildContext context) {
-    CollectionReference users = FirebaseFirestore.instance.collection('users');
-
-    Future<void> addUser() {
-      return users
-          .add({
-        'full_name': fullName, // John Doe
-        'company': company, // Stokes and Sons
-        'age': age // 42
-      })
-          .then((value) => print("User Added"))
-          .catchError((error) => print("Failed to add user: $error"));
-    }
-
-    return TextButton(
-      onPressed: addUser,
-      child: Text(
-        "Add User",
+    return Scaffold(
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance.collection('restaurante').snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return ListView(
+            children: snapshot.data!.docs.map((document) {
+              return Center(
+                  child: RaisedButton(
+                      child: Text(document['text']),
+                      color: Colors.deepPurpleAccent,
+                      textColor: Colors.white,
+                      onPressed: (){
+                        plato=document['text'];
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => AddData(plato,user)),
+                        );
+                      },
+                    ),
+              );
+            }).toList(),
+          );
+        },
       ),
     );
   }

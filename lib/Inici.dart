@@ -5,6 +5,7 @@ import 'dart:html';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:loading_animations/loading_animations.dart';
 
 import 'Home.dart';
 import 'Registre.dart';
@@ -98,6 +99,13 @@ class inici extends StatelessWidget {
                       color: Colors.deepPurple,
                       textColor: Colors.white,
                       onPressed: () async {
+                        LoadingFlipping.circle(
+                          borderColor: Colors.cyan,
+                          borderSize: 3.0,
+                          size: 30.0,
+                          backgroundColor: Colors.cyanAccent,
+                          duration: Duration(milliseconds: 500),
+                        );
                         //email : de@de.de
                         //pass : 1234567890
                         try {
@@ -112,7 +120,7 @@ class inici extends StatelessWidget {
                           myController2.clear();
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => Home(text1, text2)),
+                            MaterialPageRoute(builder: (context) => Home(text1)),
                           );
                         } on FirebaseAuthException catch (e) {
                           if (e.code == 'user-not-found') {

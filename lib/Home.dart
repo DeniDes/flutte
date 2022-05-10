@@ -7,14 +7,12 @@ import 'package:flutterproject/VerComanda.dart';
 // ignore: must_be_immutable
 class Home extends StatelessWidget {
   // ignore: non_constant_identifier_names
-  String Nodeuno = "";
-  // ignore: non_constant_identifier_names
-  String Nodedos = "";
+  String user = "";
+
 
   // ignore: use_key_in_widget_constructors
-  Home(String text1, String text2) {
-    Nodeuno = text1;
-    Nodedos = text2;
+  Home(String u) {
+    user = u;
   }
 
   @override
@@ -62,7 +60,7 @@ class Home extends StatelessWidget {
                       onPressed: (){
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => HacerComanda()),
+                          MaterialPageRoute(builder: (context) => HacerComanda(user)),
                         );
                       },
                     ),
