@@ -32,8 +32,14 @@ class getData extends StatelessWidget {
           }
           return ListView(
             children: snapshot.data!.docs.map((document) {
-              return Center(
-                  child: Text(document['plato']+','+document['persona']),
+              const SizedBox(
+                height: 90,
+              );
+              return Column(
+                children: [
+                  const SizedBox(height: 20,),
+                  Text(document['plato']+' , '+document['persona']),
+                ],
               );
             }).toList(),
           );

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterproject/HacerComanda.dart';
 import 'package:flutterproject/VerComanda.dart';
+import 'package:flutterproject/perfil.dart';
 
 // ignore: must_be_immutable
 class Home extends StatelessWidget {
@@ -36,17 +37,17 @@ class Home extends StatelessWidget {
                   const SizedBox(
                     height: 30,
                   ),
-                  SizedBox.fromSize(
-                    size: Size(56, 56),
-                    child: ClipOval(
-                      child: RaisedButton(
-                        child: const Text('perfil'),
-                        color: Colors.deepPurple,
-                        textColor: Colors.white,
-                        onPressed: (){
-
-                        },
-                      ),
+                  ClipOval(
+                    child: RaisedButton(
+                      child: const Text('perfil'),
+                      color: Colors.deepPurple,
+                      textColor: Colors.white,
+                      onPressed: (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => perfil(email: user,)),
+                        );
+                      },
                     ),
                   ),
                   const SizedBox(

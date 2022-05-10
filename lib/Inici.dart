@@ -1,11 +1,8 @@
 // ignore_for_file: deprecated_member_use, file_names
 
-import 'dart:html';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:loading_animations/loading_animations.dart';
 
 import 'Home.dart';
 import 'Registre.dart';
@@ -99,13 +96,6 @@ class inici extends StatelessWidget {
                       color: Colors.deepPurple,
                       textColor: Colors.white,
                       onPressed: () async {
-                        LoadingFlipping.circle(
-                          borderColor: Colors.cyan,
-                          borderSize: 3.0,
-                          size: 30.0,
-                          backgroundColor: Colors.cyanAccent,
-                          duration: Duration(milliseconds: 500),
-                        );
                         //email : de@de.de
                         //pass : 1234567890
                         try {

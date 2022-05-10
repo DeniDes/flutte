@@ -1,6 +1,5 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterproject/Home.dart';
 
@@ -98,8 +97,10 @@ class getData extends StatelessWidget {
           }
           return ListView(
             children: snapshot.data!.docs.map((document) {
-              return Center(
-                  child: RaisedButton(
+              return Column(
+                children: [
+                  const SizedBox(height: 20,),
+                  RaisedButton(
                       child: Text(document['text']),
                       color: Colors.deepPurpleAccent,
                       textColor: Colors.white,
@@ -111,6 +112,7 @@ class getData extends StatelessWidget {
                         );
                       },
                     ),
+                ],
               );
             }).toList(),
           );

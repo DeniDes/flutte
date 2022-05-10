@@ -15,8 +15,8 @@ Future<void> main() async {
       measurementId: "G-VSN5Z9J7NC"
   );
 
-  await Firebase.initializeApp(options: options);
-  //await Firebase.initializeApp(options: null);
+  //await Firebase.initializeApp(options: options);
+  await Firebase.initializeApp(options: null);
 
   runApp(MaterialApp(
     theme: ThemeData(

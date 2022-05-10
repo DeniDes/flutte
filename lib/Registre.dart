@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 // ignore: use_key_in_widget_constructors, must_be_immutable
@@ -95,7 +96,11 @@ class Registre extends StatelessWidget {
                       onPressed: () async {
                         try {
                           await auth.createUserWithEmailAndPassword(
-                              email: myController.text, password: myController2.text);
+                              email: myController2.text, password: myController3.text);
+                          FirebaseFirestore.instance
+                              .collection('user')
+                              .doc(myController2.text)
+                              .set({'username': myController.text, 'photo':''});
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('Sucessfully Register.You Can Login Now'),
