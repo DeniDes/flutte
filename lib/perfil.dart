@@ -111,9 +111,9 @@ class _perfil extends State<perfil> {
     if (_foto != null || data['photo'].toString()!="") {
       if(_foto != null) {
         return Image.file(_foto!, width: 500, height: 500);
-      }else if(data['photo']!=null){
-         return Image.file(NetworkImage(data['photo']!), width: 500, height: 500);
-       }
+      }//else if(data['photo']!=null){
+         //return Image.file(NetworkImage(data['photo']!), width: 500, height: 500);
+       //}
       else{return Text("");}
     } else {
       return Text("Please select an image");
