@@ -45,6 +45,10 @@ class _perfil extends State<perfil> {
                 Expanded(
                   child: Column(
                     children:[
+                      //Image.asset(data['photo']),
+                      // CircleAvatar(
+                      //   backgroundImage: NetworkImage(data['photo']),
+                      // ),
                       _setImageView(),
                       FloatingActionButton(
                         onPressed: () {
@@ -69,12 +73,12 @@ class _perfil extends State<perfil> {
                           ),
                       ),
                       RaisedButton(
-                        onPressed: () {
-                          var image = _fototourl(_foto);
+                        onPressed: () async {
+                          String image = await _fototourl(_foto);
                           FirebaseFirestore.instance
                               .collection('user')
                               .doc(widget.email)
-                              .update({'username': _myController,'photo':image});
+                              .update({'username': _myController!.text,'photo':image});
                           Navigator.of(context).pop();
                          },
                       )
@@ -104,8 +108,13 @@ class _perfil extends State<perfil> {
     //Navigator.of(context).pop();
   }
   Widget _setImageView() {
-    if (_foto != null) {
-      return Image.file(_foto!, width: 500, height: 500);
+    if (_foto != null || data['photo'].toString()!="") {
+      if(_foto != null) {
+        return Image.file(_foto!, width: 500, height: 500);
+      }else if(data['photo']!=null){
+         return Image.file(NetworkImage(data['photo']!), width: 500, height: 500);
+       }
+      else{return Text("");}
     } else {
       return Text("Please select an image");
     }
