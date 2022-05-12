@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_picker_web/image_picker_web.dart';
 
 class perfil extends StatefulWidget {
   final String? email;
@@ -17,8 +18,10 @@ class perfil extends StatefulWidget {
 }
 
 class _perfil extends State<perfil> {
+  var imageFile;
   File? _foto;
   final ImagePicker img = ImagePicker();
+  final ImagePickerWeb im = ImagePickerWeb();
   var data = { };
 
   TextEditingController? _myController;
@@ -49,6 +52,7 @@ class _perfil extends State<perfil> {
                       // CircleAvatar(
                       //   backgroundImage: NetworkImage(data['photo']),
                       // ),
+                      //_setImageView(),
                       _setImageView(),
                       FloatingActionButton(
                         onPressed: () {
@@ -73,6 +77,9 @@ class _perfil extends State<perfil> {
                           ),
                       ),
                       RaisedButton(
+                        child: const Text('modificar perfil'),
+                        color: Colors.deepPurple,
+                        textColor: Colors.white,
                         onPressed: () async {
                           String image = await _fototourl(_foto);
                           FirebaseFirestore.instance
@@ -99,7 +106,7 @@ class _perfil extends State<perfil> {
     _myController = TextEditingController( text: data['username'] );
   }
   void _openGallery(BuildContext context) async {
-    var picture =  await img.pickImage(source: ImageSource.gallery);
+    var picture =  await img.pickImage(source: ImageSource.gallery); 
     this.setState(() {
       if(picture!=null) {
         _foto = File(picture.path);
@@ -107,13 +114,38 @@ class _perfil extends State<perfil> {
     });
     //Navigator.of(context).pop();
   }
+  void _openGalleryWeb(BuildContext context) async {
+     var iFoto = ImagePickerWeb.getImageAsFile();
+     var picture =  await img.pickImage(source: ImageSource.gallery); 
+     print("a");
+     print(iFoto);
+     print("b");
+     print(picture!.path);
+  }
+  Widget _setImageViewWeb() {
+    if (_foto != null || data['photo'].toString()!="") {
+      if(_foto != null) {
+        var im = _foto as File;
+        return Text(_foto.toString());
+        //return Image.file(im, width: 400, height: 400);
+      }/*else if(data['photo']!=null){
+         //return Image.network(data['photo'], width: 400, height: 400);
+         return Image.network(
+           "https://www.google.com/url?sa=i&url=https%3A%2F%2Flasletras.org%2Fletra-a%2F&psig=AOvVaw09gTIO2EYjtvEjFADSBAVa&ust=1652457653982000&source=images&cd=vfe&ved=0CAkQjRxqFwoTCOCh6s2q2vcCFQAAAAAdAAAAABAE"
+         , width: 400, height: 400);
+      }*/
+      else{return Text("aaa");}
+    } else {
+      return Text("Please select an image");
+    }
+  }
   Widget _setImageView() {
     if (_foto != null || data['photo'].toString()!="") {
       if(_foto != null) {
-        return Image.file(_foto!, width: 500, height: 500);
-      }//else if(data['photo']!=null){
-         //return Image.file(NetworkImage(data['photo']!), width: 500, height: 500);
-       //}
+        return Image.file(_foto!, width: 400, height: 400);
+      }else if(data['photo']!=null){
+         return Image.network(data['photo'], width: 400, height: 400);
+       }
       else{return Text("");}
     } else {
       return Text("Please select an image");
