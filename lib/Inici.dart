@@ -20,7 +20,7 @@ class inici extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('First Screen'),
+        title: const Text('Inici Screen'),
         elevation: 0,
       ),
       body: Container(
@@ -92,7 +92,7 @@ class inici extends StatelessWidget {
                       height: 30,
                     ),
                     RaisedButton(
-                      child: const Text('next screen'),
+                      child: const Text('Logged'),
                       color: Colors.deepPurple,
                       textColor: Colors.white,
                       onPressed: () async {

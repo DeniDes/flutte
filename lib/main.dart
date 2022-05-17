@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutterproject/Inici.dart';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -14,10 +16,11 @@ Future<void> main() async {
       appId: "1:922131752042:web:68d56c4d13924fb2cb9613",
       measurementId: "G-VSN5Z9J7NC"
   );
-
-  await Firebase.initializeApp(options: options);
-  //await Firebase.initializeApp(options: null);
-
+  if (kIsWeb) {
+    await Firebase.initializeApp(options: options);
+  }else {
+    await Firebase.initializeApp(options: null);
+  }
   runApp(MaterialApp(
     theme: ThemeData(
       primarySwatch: Colors.deepPurple,

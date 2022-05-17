@@ -20,7 +20,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Second Screen"),
+        title: const Text("Menu Screen"),
       ),
       body: Center(
         child: ListView(

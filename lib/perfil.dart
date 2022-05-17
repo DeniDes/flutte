@@ -4,7 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:image_picker_web/image_picker_web.dart';
+import 'package:path/path.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+
+
+//import 'package:image_picker_web/image_picker_web.dart';
 
 class perfil extends StatefulWidget {
   final String? email;
@@ -21,7 +25,7 @@ class _perfil extends State<perfil> {
   var imageFile;
   File? _foto;
   final ImagePicker img = ImagePicker();
-  final ImagePickerWeb im = ImagePickerWeb();
+//  final ImagePickerWeb im = ImagePickerWeb();
   var data = { };
 
   TextEditingController? _myController;
@@ -40,7 +44,7 @@ class _perfil extends State<perfil> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Perfil"),
+          title: const Text("Perfil Screen"),
         ),
         body: Center(
             child: ListView(
@@ -81,12 +85,27 @@ class _perfil extends State<perfil> {
                         color: Colors.deepPurple,
                         textColor: Colors.white,
                         onPressed: () async {
-                          String image = await _fototourl(_foto);
-                          FirebaseFirestore.instance
-                              .collection('user')
-                              .doc(widget.email)
-                              .update({'username': _myController!.text,'photo':image});
-                          Navigator.of(context).pop();
+                          if(_foto==null){
+                            FirebaseFirestore.instance
+                                .collection('user')
+                                .doc(widget.email)
+                                .update({
+                              'username': _myController!.text,
+                              'photo': data['photo']
+                            });
+                            Navigator.of(context).pop();
+                          }
+                          else {
+                            String image = await _fototourl(_foto);
+                            FirebaseFirestore.instance
+                                .collection('user')
+                                .doc(widget.email)
+                                .update({
+                              'username': _myController!.text,
+                              'photo': image
+                            });
+                            Navigator.of(context).pop();
+                          }
                          },
                       )
                     ]
@@ -112,13 +131,12 @@ class _perfil extends State<perfil> {
         _foto = File(picture.path);
       }
     });
-    //Navigator.of(context).pop();
   }
   void _openGalleryWeb(BuildContext context) async {
-     var iFoto = ImagePickerWeb.getImageAsFile();
+//     var iFoto = ImagePickerWeb.getImageAsFile();
      var picture =  await img.pickImage(source: ImageSource.gallery); 
      print("a");
-     print(iFoto);
+//     print(iFoto);
      print("b");
      print(picture!.path);
   }
@@ -140,22 +158,51 @@ class _perfil extends State<perfil> {
     }
   }
   Widget _setImageView() {
-    if (_foto != null || data['photo'].toString()!="") {
-      if(_foto != null) {
-        return Image.file(_foto!, width: 400, height: 400);
-      }else if(data['photo']!=null){
-         return Image.network(data['photo'], width: 400, height: 400);
-       }
-      else{return Text("");}
-    } else {
-      return Text("Please select an image");
+    if (kIsWeb) {
+      // if(_foto != null || data['photo'].toString()!="") {
+      //   if(_foto!=null) {
+      //     var f = _foto?.readAsBytes();
+      //
+      //       _foto = f as File?;
+      //
+      //     return Image.file(_foto!, width: 400, height: 400);
+      //   }
+      //   else if(data['photo']!=null){
+      //     return Image.network(data['photo'], width: 400, height: 400);
+      //   }
+      // }
+    }else{
+      if (_foto != null || data['photo'].toString()!="") {
+        if(_foto != null) {
+          return Image.file(_foto!, width: 400, height: 400);
+        }else if(data['photo']!=null){
+           return Image.network(data['photo'], width: 400, height: 400);
+         }
+        else{return Text("");}
+      } else {
+        return Text("Please select an image");
+      }
     }
+    return Text("a");
   }
+
   Future <String> _fototourl(mFile) async{
-    final Reference storage = FirebaseStorage.instance.ref('userimg').child(widget.email!);
-    UploadTask task = storage.putFile(mFile);
-    String url = await (await task).ref.getDownloadURL();
-    return url;
+    if(kIsWeb){
+      final Reference storage = FirebaseStorage.instance.ref('userimg').child(widget.email!);
+
+      //UploadTask task = storage.putFile(mFile);
+
+      UploadTask uploadTask = storage.putFile(mFile);
+      String url;
+      TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
+      url = await (await taskSnapshot).ref.getDownloadURL();
+      return url;
+    }else {
+      final Reference storage = FirebaseStorage.instance.ref('userimg').child(widget.email!);
+      UploadTask task = storage.putFile(mFile);
+      String url = await (await task).ref.getDownloadURL();
+      return url;
+    }
   }
 
 }

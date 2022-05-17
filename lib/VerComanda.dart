@@ -37,6 +37,7 @@ class getData extends StatelessWidget {
               );
               return Column(
                 children: [
+
                   const SizedBox(height: 20,),
                   Text(document['plato']+' , '+document['persona']),
                 ],
